@@ -59,7 +59,7 @@ public class traversals {
 
         for (Edge edge : processingVertex.getOut()) {
             Vertex vertex = graph.getVertex(edge.getDestinyId());
-            if (!visitedVertices.contains(processingVertex)) {
+            if (!visitedVertices.contains(vertex)) {
                 stringBuilder.append(dfsUtil(graph, vertex, visitedVertices));
             }
         }

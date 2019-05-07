@@ -8,8 +8,10 @@ public class Graph {
 
     private final HashMap<Long, Vertex> vertices = new HashMap<>();
     private Long lastVertexId = -1L;
+    private boolean isDirect = true;
 
-    public Graph() {
+    public Graph(boolean isDirect) {
+        this.isDirect = isDirect;
     }
 
     public void connect(Vertex source, Vertex destiny, long weight) {
@@ -18,6 +20,11 @@ public class Graph {
         Edge edge = new Edge(source.getId(), destiny.getId(), weight);
         source.getOut().add(edge);
         destiny.getIn().add(edge);
+        if(!isDirect){
+            Edge edge1 = new Edge(destiny.getId(),source.getId(), weight);
+            source.getIn().add(edge1);
+            destiny.getOut().add(edge1);
+        }
     }
 
     public void connect(long sourceId, long destinyId, long weight) throws IllegalArgumentException {
@@ -25,6 +32,11 @@ public class Graph {
             Edge edge = new Edge(sourceId, destinyId, weight);
             vertices.get(sourceId).getOut().add(edge);
             vertices.get(destinyId).getIn().add(edge);
+            if(!isDirect){
+                Edge edge1 = new Edge(destinyId,sourceId,weight);
+                vertices.get(sourceId).getIn().add(edge1);
+                vertices.get(destinyId).getOut().add(edge1);
+            }
         } else
             throw new IllegalArgumentException("source id or destiny id are undefined.");
     }
@@ -71,5 +83,13 @@ public class Graph {
 
     public Long getLastVertexId() {
         return lastVertexId;
+    }
+
+    public boolean isDirect() {
+        return isDirect;
+    }
+
+    public void setDirect(boolean direct) {
+        isDirect = direct;
     }
 }

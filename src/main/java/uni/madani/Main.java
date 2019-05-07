@@ -9,10 +9,11 @@ import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) {
-        Graph graph = new Graph();
+        Graph graph = new Graph(false);
         graph.addVertex(1,2,6);
         graph.addVertex(2,6,8);
         graph.connect(8,6,1);
+
         try {
             GraphPersist.persistGraph(graph,"graph");
             System.out.println(GraphPersist.deserializeGraph(Path.of("graph.graph")));
