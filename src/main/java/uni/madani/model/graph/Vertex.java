@@ -57,9 +57,10 @@ public class Vertex implements Comparable<Vertex> {
     public String toString() {
         return String.format("Vertex{ " +
                         "id = %d ," +
-                        "Position{x = %f, y = %f}" +
+                        "Position{x = %f, y = %f} ," +
+                        "values[%s]" +
                         "}",
-                getId(), position.getX(), position.getY()
+                getId(), position.getX(), position.getY(), values
         );
 
     }

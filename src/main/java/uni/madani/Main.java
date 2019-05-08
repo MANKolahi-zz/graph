@@ -13,8 +13,7 @@ public class Main {
         Graph graph = new Graph(false);
         graph.addVertex(1, 2, 6);
         graph.addVertex(2, 6, 8);
-        graph.connect(8, 6, 1, new GraphElementValue("valueName", "value"),
-                new GraphElementValue("value1Name", "value1"));
+        graph.connect(8, 6, 1, new GraphElementValue("valueName", "value"));
 
         try {
             GraphPersist.persistGraph(graph,"graph");
