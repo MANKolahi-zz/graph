@@ -3,6 +3,7 @@ package uni.madani;
 import uni.madani.algorithm.traversal.traversals;
 import uni.madani.model.graph.Graph;
 import uni.madani.persist.filePersist.GraphPersist;
+import uni.madani.utils.Value;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,9 +11,10 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) {
         Graph graph = new Graph(false);
-        graph.addVertex(1,2,6);
-        graph.addVertex(2,6,8);
-        graph.connect(8,6,1);
+        graph.addVertex(1, 2, 6, "first");
+        graph.addVertex(2, 6, 8, "second");
+        graph.connect(8, 6, 1, new Value("valueName", "value"),
+                new Value("value1Name", "value1"));
 
         try {
             GraphPersist.persistGraph(graph,"graph");

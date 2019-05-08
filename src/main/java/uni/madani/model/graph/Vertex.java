@@ -10,12 +10,14 @@ public class Vertex implements Comparable<Vertex> {
 
     private final List<Edge> out = new ArrayList<>();
     private final List<Edge> in = new ArrayList<>();
-    private Point2D position;
     private final long id;
+    private Point2D position;
+    private String label;
 
-    public Vertex(Point2D position, long id) {
+    public Vertex(Point2D position, long id, String label) {
         this.id = id;
         this.position = position;
+        this.label = label;
     }
 
     public List<Edge> getOut() {
@@ -56,11 +58,9 @@ public class Vertex implements Comparable<Vertex> {
     public String toString() {
         return String.format("Vertex{ " +
                         "id = %d ," +
-                        "Position{x = %f, y = %f}," +
-                        " out = %s" +
-                        " in = %s "+
+                        "Position{x = %f, y = %f}" +
                         "}",
-                getId(), position.getX(), position.getY(), out.toString(), in.toString()
+                getId(), position.getX(), position.getY()
         );
 
     }
@@ -68,5 +68,13 @@ public class Vertex implements Comparable<Vertex> {
 
     public int compareTo(Vertex vertex) {
         return Long.compare(id, vertex.getId());
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }
