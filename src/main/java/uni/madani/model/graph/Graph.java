@@ -1,7 +1,7 @@
 package uni.madani.model.graph;
 
 import javafx.geometry.Point2D;
-import uni.madani.utils.Value;
+import uni.madani.utils.graphValue.GraphElementValue;
 
 import java.util.*;
 
@@ -28,16 +28,16 @@ public class Graph {
         }
     }
 
-    public void connect(Vertex source, Vertex destiny, long weight, Value... values) {
+    public void connect(Vertex source, Vertex destiny, long weight, GraphElementValue... values) {
         vertices.putIfAbsent(source.getId(), source);
         vertices.putIfAbsent(destiny.getId(), destiny);
         Edge edge = new Edge(source.getId(), destiny.getId(), weight);
-        edge.addValue(values);
+        edge.getValues().addValue(values);
         source.getOut().add(edge);
         destiny.getIn().add(edge);
         if (!isDirect) {
             Edge edge1 = new Edge(destiny.getId(), source.getId(), weight);
-            edge1.addValue(values);
+            edge1.getValues().addValue(values);
             source.getIn().add(edge1);
             destiny.getOut().add(edge1);
         }
@@ -59,16 +59,16 @@ public class Graph {
             throw new IllegalArgumentException("source id or destiny id are undefined.");
     }
 
-    public void connect(long sourceId, long destinyId, long weight, Value... values)
+    public void connect(long sourceId, long destinyId, long weight, GraphElementValue... values)
             throws IllegalArgumentException {
         if (vertices.containsKey(sourceId) && vertices.containsKey(destinyId)) {
             Edge edge = new Edge(sourceId, destinyId, weight);
-            edge.addValue(values);
+            edge.getValues().addValue(values);
             vertices.get(sourceId).getOut().add(edge);
             vertices.get(destinyId).getIn().add(edge);
             if (!isDirect) {
                 Edge edge1 = new Edge(destinyId, sourceId, weight);
-                edge1.addValue(values);
+                edge1.getValues().addValue(values);
                 vertices.get(sourceId).getIn().add(edge1);
                 vertices.get(destinyId).getOut().add(edge1);
             }
@@ -76,9 +76,9 @@ public class Graph {
             throw new IllegalArgumentException("source id or destiny id are undefined.");
     }
 
-    public void addVertex(double x, double y, long id, String label) {
+    public void addVertex(double x, double y, long id) {
         lastVertexId = id;
-        vertices.put(id, new Vertex(new Point2D(x, y), id, label));
+        vertices.put(id, new Vertex(new Point2D(x, y), id));
     }
 
     public List<Edge> getEdges() {

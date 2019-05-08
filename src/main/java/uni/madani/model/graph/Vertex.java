@@ -1,6 +1,7 @@
 package uni.madani.model.graph;
 
 import javafx.geometry.Point2D;
+import uni.madani.utils.graphValue.GraphElementValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +12,12 @@ public class Vertex implements Comparable<Vertex> {
     private final List<Edge> out = new ArrayList<>();
     private final List<Edge> in = new ArrayList<>();
     private final long id;
+    private final GraphElementValues values = new GraphElementValues();
     private Point2D position;
-    private String label;
 
-    public Vertex(Point2D position, long id, String label) {
+    public Vertex(Point2D position, long id) {
         this.id = id;
         this.position = position;
-        this.label = label;
     }
 
     public List<Edge> getOut() {
@@ -35,7 +35,6 @@ public class Vertex implements Comparable<Vertex> {
     public long getId() {
         return id;
     }
-
 
     public List<Edge> getIn() {
         return in;
@@ -65,16 +64,11 @@ public class Vertex implements Comparable<Vertex> {
 
     }
 
-
     public int compareTo(Vertex vertex) {
         return Long.compare(id, vertex.getId());
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
+    public GraphElementValues getValues() {
+        return values;
     }
 }
