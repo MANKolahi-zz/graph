@@ -1,4 +1,4 @@
-package uni.madani.utils.graphValue;
+package uni.madani.model.graph.graphValue;
 
 public class GraphElementValue {
     public String name;

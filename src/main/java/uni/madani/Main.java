@@ -1,9 +1,13 @@
 package uni.madani;
 
+import javafx.geometry.Point2D;
 import uni.madani.algorithm.traversal.traversals;
 import uni.madani.model.graph.Graph;
+import uni.madani.model.graph.Vertex.Vertex;
+import uni.madani.model.graph.Vertex.VertexGraphics;
+import uni.madani.model.graph.Vertex.VertexLabelGraphics;
+import uni.madani.model.graph.graphValue.GraphElementValue;
 import uni.madani.persist.filePersist.GraphPersist;
-import uni.madani.utils.graphValue.GraphElementValue;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -11,13 +15,18 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) {
         Graph graph = new Graph(false);
-        graph.addVertex(1, 2, 6);
+        Vertex vertex = new Vertex(65, new VertexGraphics(new Point2D(1, 2)),
+                new VertexLabelGraphics("first"));
+        GraphElementValue graphElementValue = new GraphElementValue("valueName", "value");
+        vertex.getValues().addValue(graphElementValue,
+                new GraphElementValue("test", "testValue"));
+        graph.addVertex(vertex);
         graph.addVertex(2, 6, 8);
-        graph.connect(8, 6, 1, new GraphElementValue("valueName", "value"));
+        graph.connect(8, 65, 1);
 
         try {
-            GraphPersist.persistGraph(graph,"graph");
-            System.out.println(GraphPersist.deserializeGraph(Path.of("graph.graph")));
+            GraphPersist.writeGraphToFile(graph, "graph");
+            System.out.println(GraphPersist.parsingFromFile(Path.of("graph.graph")).toString(0));
         } catch (IOException e) {
             e.printStackTrace();
         }

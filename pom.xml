@@ -59,7 +59,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ir.icecode.Main</mainClass>
+                    <mainClass>uni.madani.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
