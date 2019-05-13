@@ -6,6 +6,7 @@ import uni.madani.model.graph.graphValue.GraphElementValues;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import static uni.madani.model.graph.util.Formatter.newLine;
 
@@ -115,5 +116,16 @@ public class Vertex implements Comparable<Vertex> {
 
     public void setVertexLabelGraphics(VertexLabelGraphics vertexLabelGraphics) {
         this.vertexLabelGraphics = vertexLabelGraphics;
+    }
+
+    public static Pattern vertexPattern;
+
+    public static Pattern getVertexPattern() {
+        if (vertexPattern == null) {
+            vertexPattern = Pattern.
+                    compile("node\\[\\s*id\\s*\\d+\\s*graphics\\[[\\s[\\S]&&[^\\[\\]]]*]\\s*" +
+                            "LabelGraphics\\[.*]\\s*values\\[\\s*.*\\s*]\\s*]");
+        }
+        return vertexPattern;
     }
 }

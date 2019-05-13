@@ -7,7 +7,7 @@ import uni.madani.model.graph.Vertex.Vertex;
 import uni.madani.model.graph.Vertex.VertexGraphics;
 import uni.madani.model.graph.Vertex.VertexLabelGraphics;
 import uni.madani.model.graph.graphValue.GraphElementValue;
-import uni.madani.persist.filePersist.GraphPersist;
+import uni.madani.persist.filePersist.GMLParser;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -24,9 +24,12 @@ public class Main {
         graph.addVertex(2, 6, 8);
         graph.connect(8, 65, 1);
 
+        GMLParser gmlParser = GMLParser.getInstance();
+
+
         try {
-            GraphPersist.writeGraphToFile(graph, "graph");
-            System.out.println(GraphPersist.parsingFromFile(Path.of("graph.graph")).toString(0));
+//            GraphPersist.writeGraphToFile(graph, "graph");
+            System.out.println(gmlParser.parsingFromFile(Path.of("graph.graph")).toString(0));
         } catch (IOException e) {
             e.printStackTrace();
         }

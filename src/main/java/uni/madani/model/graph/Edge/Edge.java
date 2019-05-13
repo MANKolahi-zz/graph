@@ -3,6 +3,7 @@ package uni.madani.model.graph.Edge;
 import uni.madani.model.graph.graphValue.GraphElementValues;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import static uni.madani.model.graph.util.Formatter.newLine;
 
@@ -103,4 +104,19 @@ public class Edge implements Comparable<Edge> {
         this.edgeLabelGraphics = edgeLabelGraphics;
     }
 
+    private static Pattern edgePattern;
+
+    public static Pattern getEdgePattern() {
+        if (edgePattern == null) {
+            edgePattern = Pattern.compile("edge\\[" +
+                    "\\s*source\\s*\\d+" +
+                    "\\s*target\\s*\\d+" +
+                    "\\s*weight\\s*\\d+" +
+                    "\\s*graphics\\[]" +
+                    "\\s*LabelGraphics\\[.*]" +
+                    "\\s*values\\[[\\s[\\S]&&[^\\[\\]]]*]" +
+                    "\\s*]");
+        }
+        return edgePattern;
+    }
 }

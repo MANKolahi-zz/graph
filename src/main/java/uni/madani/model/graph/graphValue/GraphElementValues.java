@@ -2,6 +2,7 @@ package uni.madani.model.graph.graphValue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class GraphElementValues {
 
@@ -42,4 +43,14 @@ public class GraphElementValues {
         return stringBuilder.toString();
     }
 
+    private static Pattern graphElementValuesPattern;
+
+    public static Pattern getGraphElementValuesPattern() {
+        if (graphElementValuesPattern == null) {
+            graphElementValuesPattern = Pattern.
+                    compile("values\\[[\\[\\p{Graph}:\\p{Graph}\\][\\s]]*]");
+
+        }
+        return graphElementValuesPattern;
+    }
 }

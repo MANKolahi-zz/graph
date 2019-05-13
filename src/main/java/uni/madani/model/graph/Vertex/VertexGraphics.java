@@ -4,6 +4,8 @@ package uni.madani.model.graph.Vertex;
 import javafx.geometry.Point2D;
 import uni.madani.model.graph.graphValue.Graphics;
 
+import java.util.regex.Pattern;
+
 import static uni.madani.model.graph.util.Formatter.newLine;
 
 public class VertexGraphics extends Graphics {
@@ -39,4 +41,12 @@ public class VertexGraphics extends Graphics {
                 newLine(depth));
     }
 
+    private static Pattern graphicsPattern;
+
+    public static Pattern getGraphicsPattern() {
+        if (graphicsPattern == null) {
+            graphicsPattern = Pattern.compile("graphics\\[\\s*x\\s*.*\\s*y\\s*.*\\s*]");
+        }
+        return graphicsPattern;
+    }
 }
