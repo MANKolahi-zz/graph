@@ -28,7 +28,7 @@ public abstract class LabelGraphics {
 
     public static Pattern getTextPattern() {
         if (textPattern == null) {
-            textPattern = Pattern.compile("text\\s*" + getTextValuePattern() + "\\s*");
+            textPattern = Pattern.compile("text\\s*\"[\\s[\\S]&&[^\"]]*\"");
         }
         return textPattern;
     }

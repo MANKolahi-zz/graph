@@ -1,7 +1,7 @@
 package uni.madani.persist.filePersist;
 
 import com.google.gson.Gson;
-import uni.madani.model.graph.Graph;
+import uni.madani.model.graph.graph.Graph;
 
 import java.io.File;
 import java.io.IOException;

@@ -27,6 +27,10 @@ public class GraphElementValues {
         values.remove(name);
     }
 
+    public boolean hasValue(String name) {
+        return values.containsKey(name);
+    }
+
     public String getValue(String name) {
         return values.get(name);
     }
@@ -49,8 +53,8 @@ public class GraphElementValues {
         if (graphElementValuesPattern == null) {
             graphElementValuesPattern = Pattern.
                     compile("values\\[[\\[\\p{Graph}:\\p{Graph}\\][\\s]]*]");
-
         }
         return graphElementValuesPattern;
     }
+
 }

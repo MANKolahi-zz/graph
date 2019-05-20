@@ -1,4 +1,4 @@
-package uni.madani.model.graph;
+package uni.madani.model.graph.graph;
 
 import javafx.geometry.Point2D;
 import uni.madani.model.graph.Edge.Edge;
@@ -13,7 +13,7 @@ import java.util.*;
 
 import static uni.madani.model.graph.util.Formatter.newLine;
 
-public class Graph {
+public class Graph extends AbstractGraph<Vertex> {
 
     private final HashMap<Long, Vertex> vertices = new HashMap<>();
     private Long lastVertexId = -1L;
@@ -195,6 +195,21 @@ public class Graph {
 
     public void setDirect(boolean direct) {
         isDirect = direct;
+    }
+
+    public void removeVertex(long id) {
+        removeVertex(vertices.get(id));
+    }
+
+    public void removeVertex(Vertex vertex) {
+        vertex.getOut().forEach(edge -> vertices.get(edge.getTargetId()).getIn().remove(edge));
+        vertex.getIn().forEach(edge -> vertices.get(edge.getSourceId()).getOut().remove(edge));
+        vertices.remove(vertex.getId());
+    }
+
+    public void removeEdge(Edge edge) {
+        vertices.get(edge.getSourceId()).getOut().remove(edge);
+        vertices.get(edge.getTargetId()).getIn().remove(edge);
     }
 
 }

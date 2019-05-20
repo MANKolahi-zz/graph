@@ -4,13 +4,12 @@ import javafx.geometry.Point2D;
 import uni.madani.model.graph.Edge.Edge;
 import uni.madani.model.graph.Edge.EdgeGraphics;
 import uni.madani.model.graph.Edge.EdgeLabelGraphics;
-import uni.madani.model.graph.Graph;
 import uni.madani.model.graph.Vertex.Vertex;
 import uni.madani.model.graph.Vertex.VertexGraphics;
 import uni.madani.model.graph.Vertex.VertexLabelGraphics;
+import uni.madani.model.graph.graph.Graph;
 import uni.madani.model.graph.graphValue.GraphElementValue;
 import uni.madani.model.graph.graphValue.GraphElementValues;
-import uni.madani.model.graph.graphValue.LabelGraphics;
 import uni.madani.model.graph.util.Patterns;
 
 import java.io.IOException;
@@ -52,10 +51,20 @@ public class GMLParser {
                 String group = matchResult.group();
                 long source = (long) getNumberOf("source", group);
                 long target = (long) getNumberOf("target", group);
-                long weight = (long) getNumberOf("weight", group);
-                LabelGraphics labelGraphics = vertexLabelGraphicsOf(group);
-                edges.add(new Edge(source, target, weight, new EdgeGraphics(), edgeLabelGraphicsOf(group)));
+                long weight;
+                try {
+                    weight = (long) getNumberOf("weight", group);
+                } catch (ParsFailedExemption ex) {
+                    weight = 1;
+                }
+                Edge edge = new Edge(source, target, weight, new EdgeGraphics(), edgeLabelGraphicsOf(group));
+                GraphElementValue[] values = graphElementValueListOf(group);
+                if (values != null) {
+                    edge.getValues().addValue(values);
+                }
+                edges.add(edge);
             } catch (ParsFailedExemption ignore) {
+                ignore.printStackTrace();
             }
         });
         return edges;
@@ -82,7 +91,6 @@ public class GMLParser {
 
             return new EdgeLabelGraphics(textStringMatchResult);
         } catch (ParsFailedExemption ex) {
-            ex.printStackTrace();
             return null;
         }
     }
@@ -113,14 +121,12 @@ public class GMLParser {
         try {
             Pattern graphicsPattern = VertexGraphics.getGraphicsPattern();
             MatchResult graphicsMatchResult = graphicsPattern.
-                    matcher(vertex).results().findFirst().orElse(null);
-            if (graphicsMatchResult == null) throw new
-                    ParsFailedExemption("parsing graphics from vertex failed");
+                    matcher(vertex).results().findFirst().
+                    orElseThrow(() -> new ParsFailedExemption("parsing graphics from vertex failed"));
             double x = getNumberOf("x", vertex);
             double y = getNumberOf("y", vertex);
             return new VertexGraphics(new Point2D(x, y));
         } catch (ParsFailedExemption ex) {
-            ex.printStackTrace();
             return null;
         }
     }
@@ -129,9 +135,8 @@ public class GMLParser {
         try {
             Pattern labelGraphicsPattern = VertexLabelGraphics.getPattern();
             MatchResult labelGraphicsMatchResult = labelGraphicsPattern.
-                    matcher(vertex).results().findFirst().orElse(null);
-            if (labelGraphicsMatchResult == null) throw new
-                    ParsFailedExemption("parsing labelGraphics failed");
+                    matcher(vertex).results().findFirst().
+                    orElseThrow(() -> new ParsFailedExemption("parsing labelGraphics failed"));
 
             Pattern textPattern = VertexLabelGraphics.getTextPattern();
             String textMatchResult = textPattern.
@@ -146,7 +151,6 @@ public class GMLParser {
 
             return new VertexLabelGraphics(textStringMatchResult);
         } catch (ParsFailedExemption ex) {
-            ex.printStackTrace();
             return null;
         }
     }

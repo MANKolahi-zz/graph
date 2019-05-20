@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import static uni.madani.model.graph.util.Formatter.newLine;
 
-public class Vertex implements Comparable<Vertex> {
+public class Vertex extends AbstractVertex<Edge> implements Comparable<Vertex> {
 
     private final GraphElementValues values = new GraphElementValues();
     private final List<Edge> out = new ArrayList<>();
@@ -123,8 +123,8 @@ public class Vertex implements Comparable<Vertex> {
     public static Pattern getVertexPattern() {
         if (vertexPattern == null) {
             vertexPattern = Pattern.
-                    compile("node\\[\\s*id\\s*\\d+\\s*graphics\\[[\\s[\\S]&&[^\\[\\]]]*]\\s*" +
-                            "LabelGraphics\\[.*]\\s*values\\[\\s*.*\\s*]\\s*]");
+                    compile("node\\s*\\[\\s*id\\s*\\d+\\s*(graphics\\[[\\s[\\S]&&[^\\[\\]]]*])?\\s*" +
+                            "(LabelGraphics\\[.*])?\\s*(values\\[\\s*.*\\s*]\\s*])?");
         }
         return vertexPattern;
     }

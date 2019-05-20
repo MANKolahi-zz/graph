@@ -2,15 +2,18 @@ package uni.madani;
 
 import javafx.geometry.Point2D;
 import uni.madani.algorithm.traversal.traversals;
-import uni.madani.model.graph.Graph;
+import uni.madani.model.graph.Edge.Edge;
 import uni.madani.model.graph.Vertex.Vertex;
 import uni.madani.model.graph.Vertex.VertexGraphics;
 import uni.madani.model.graph.Vertex.VertexLabelGraphics;
+import uni.madani.model.graph.graph.Graph;
 import uni.madani.model.graph.graphValue.GraphElementValue;
 import uni.madani.persist.filePersist.GMLParser;
+import uni.madani.persist.filePersist.GraphPersist;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,13 +31,25 @@ public class Main {
 
 
         try {
-//            GraphPersist.writeGraphToFile(graph, "graph");
-            System.out.println(gmlParser.parsingFromFile(Path.of("graph.graph")).toString(0));
+            Graph fromFile = gmlParser.parsingFromFile(Path.of("graph.graph"));
+
+            GraphPersist.writeGraphToFile(fromFile, "graph2");
+            Collection<Vertex> verticesCollection = fromFile.getVerticesCollection();
+            verticesCollection.forEach(vertex1 -> {
+                if (vertex1.getOut().size() == 1 && vertex1.getIn().size() == 1) {
+                    System.out.println(vertex1);
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         System.out.println(traversals.bfs(graph));
         System.out.println(traversals.dfs(graph));
+
+        Edge edge = new Edge(5, 6, 1);
+
     }
+
 
 }

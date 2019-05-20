@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import static uni.madani.model.graph.util.Formatter.newLine;
 
-public class Edge implements Comparable<Edge> {
+public class Edge extends AbstractEdge implements Comparable<Edge> {
 
     private final long sourceId;
     private final long targetId;
@@ -108,13 +108,13 @@ public class Edge implements Comparable<Edge> {
 
     public static Pattern getEdgePattern() {
         if (edgePattern == null) {
-            edgePattern = Pattern.compile("edge\\[" +
+            edgePattern = Pattern.compile("edge\\s*\\[" +
                     "\\s*source\\s*\\d+" +
                     "\\s*target\\s*\\d+" +
-                    "\\s*weight\\s*\\d+" +
-                    "\\s*graphics\\[]" +
-                    "\\s*LabelGraphics\\[.*]" +
-                    "\\s*values\\[[\\s[\\S]&&[^\\[\\]]]*]" +
+                    "\\s*(weight\\s*\\d+)?" +
+                    "\\s*(graphics\\[])?" +
+                    "\\s*(LabelGraphics\\[.*])?" +
+                    "\\s*(values\\[\\s*.*\\s*]\\s*])?" +
                     "\\s*]");
         }
         return edgePattern;
