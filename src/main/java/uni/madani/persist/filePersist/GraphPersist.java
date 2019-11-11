@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public class GraphPersist {
 
     public static void persistGraph(Graph graph, String name) throws IOException {
-        File file = new File(name + ".graphj");
+        File file = new File(name + ".graph");
         file.createNewFile();
         Gson gson = new Gson();
         String json = gson.toJson(graph, graph.getClass());
