@@ -9,14 +9,8 @@ import uni.madani.model.graph.Vertex.VertexGraphics;
 import uni.madani.model.graph.Vertex.VertexLabelGraphics;
 import uni.madani.model.graph.graphValue.GraphElementValue;
 
-import java.util.*;
+public class Graph extends AbstractGraph<Vertex, Edge> {
 
-import static uni.madani.model.graph.util.Formatter.newLine;
-
-public class Graph extends AbstractGraph<Vertex> {
-
-    private final HashMap<Long, Vertex> vertices = new HashMap<>();
-    private Long lastVertexId = -1L;
     private boolean isDirect;
 
     public Graph(boolean isDirect) {
@@ -102,18 +96,6 @@ public class Graph extends AbstractGraph<Vertex> {
             throw new IllegalArgumentException("source or target are undefined.");
     }
 
-    public Edge getEdge(long sourceId, long targetId) {
-        return vertices.get(sourceId).getEdge(targetId);
-    }
-
-    public List<Edge> getEdges() {
-        var edges = new ArrayList<Edge>();
-        for (Map.Entry<Long, Vertex> entry : vertices.entrySet()) {
-            edges.addAll(entry.getValue().getOut());
-        }
-        return edges;
-    }
-
     public void addVertex(double x, double y, long id) {
         lastVertexId = id;
         vertices.put(id, new Vertex(id, new VertexGraphics(new Point2D(x, y))));
@@ -129,87 +111,12 @@ public class Graph extends AbstractGraph<Vertex> {
         vertices.put(id, new Vertex(id));
     }
 
-    public void addVertex(Vertex vertex) {
-        lastVertexId = vertex.getId();
-        vertices.put(vertex.getId(), vertex);
-    }
-
-    public Collection<Vertex> getVerticesCollection() {
-        return vertices.values();
-    }
-
-    public HashMap<Long, Vertex> getVertices() {
-        return vertices;
-    }
-
-    public Vertex getVertex(Long id) {
-        return vertices.get(id);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        StringBuilder edgeString = new StringBuilder();
-        stringBuilder.append("Graph{\n  vertices[\n");
-        edgeString.append("\n  edges[\n");
-        for (Vertex vertex : vertices.values()) {
-            stringBuilder.append("    ").append(vertex.toString());
-            stringBuilder.append(",");
-            stringBuilder.append("\n");
-            for (Edge edge : vertex.getOut()) {
-                edgeString.append("    ").append(edge);
-                edgeString.append(",");
-                edgeString.append("\n");
-            }
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        stringBuilder.append("\n  ]");
-        edgeString.deleteCharAt(edgeString.length() - 1);
-        stringBuilder.append(edgeString);
-        stringBuilder.append("\n  ]\n}\n");
-        return stringBuilder.toString();
-    }
-
-    public String toString(int depth) {
-        StringBuilder stringBuilder = new StringBuilder();
-        StringBuilder edgeString = new StringBuilder();
-        stringBuilder.append(newLine(depth)).append("Graph[");
-        for (Vertex vertex : vertices.values()) {
-            stringBuilder.append(vertex.toString(depth + 1));
-            for (Edge edge : vertex.getOut()) {
-                edgeString.append(edge.toString(depth + 1));
-            }
-        }
-        stringBuilder.append(edgeString);
-        stringBuilder.append(newLine(depth)).append("]");
-        return stringBuilder.toString();
-    }
-
-    public Long getLastVertexId() {
-        return lastVertexId;
-    }
-
     public boolean isDirect() {
         return isDirect;
     }
 
     public void setDirect(boolean direct) {
         isDirect = direct;
-    }
-
-    public void removeVertex(long id) {
-        removeVertex(vertices.get(id));
-    }
-
-    public void removeVertex(Vertex vertex) {
-        vertex.getOut().forEach(edge -> vertices.get(edge.getTargetId()).getIn().remove(edge));
-        vertex.getIn().forEach(edge -> vertices.get(edge.getSourceId()).getOut().remove(edge));
-        vertices.remove(vertex.getId());
-    }
-
-    public void removeEdge(Edge edge) {
-        vertices.get(edge.getSourceId()).getOut().remove(edge);
-        vertices.get(edge.getTargetId()).getIn().remove(edge);
     }
 
 }
