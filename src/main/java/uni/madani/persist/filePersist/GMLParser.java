@@ -167,7 +167,7 @@ public class GMLParser {
             List<GraphElementValue> graphElementValueList = new ArrayList<>();
             graphElementValuePattern.matcher(graphElementValuesString).results().forEach(matchResult -> {
                 String matchResultString = matchResult.group();
-                matchResultString = matchResultString.substring(1, matchResultString.length() - 1);
+                matchResultString = matchResultString.substring(1, matchResultString.length() - 2);
                 int separatorIndex = matchResultString.indexOf(':');
                 if (separatorIndex >= 0) {
                     String valueName = matchResultString.substring(0, separatorIndex);
