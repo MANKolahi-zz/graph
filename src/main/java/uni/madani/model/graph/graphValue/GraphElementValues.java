@@ -52,7 +52,7 @@ public class GraphElementValues {
     public static Pattern getGraphElementValuesPattern() {
         if (graphElementValuesPattern == null) {
             graphElementValuesPattern = Pattern.
-                    compile("values\\[[\\[\\p{Graph}:\\p{Graph}\\][\\s]]*]");
+                    compile("values\\[(\\[[[\\p{Graph}\\s]&&[^[]:]]]+:[[\\p{Graph}\\s]&&[^[]:]]]+]\\s*)*]");//values[[type:resource] [instanceNumber:3] [usedInstance:0] [fgf:gfsg]]
         }
         return graphElementValuesPattern;
     }
